@@ -12,6 +12,8 @@ Set up the initial FastAPI backend for the AI Engineering Lab.
 - PostgreSQL connection
 - Automated tests
 
+The required environment variable is `DATABASE_URL`.
+
 ## Constraints
 
 - Keep the architecture simple
@@ -29,6 +31,16 @@ Set up the initial FastAPI backend for the AI Engineering Lab.
 - PostgreSQL connection works
 - Automated tests pass
 - Configuration is environment-based
+
+The `/health` response contract is:
+
+- HTTP 200: `{"status": "healthy"}`
+- HTTP 503: `{"status": "unhealthy"}`
+
+Standard SQLAlchemy connection pooling defaults will be used initially.
+Database errors must be handled without exposing internal error details.
+The default automated tests will mock the database health check. Actual
+PostgreSQL connectivity will be verified separately.
 
 ## Out of Scope
 
