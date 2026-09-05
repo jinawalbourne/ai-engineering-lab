@@ -1,0 +1,20 @@
+[project]
+name = "ai-engineering-lab"
+version = "0.1.0"
+description = "A sandbox for learning AI-assisted software engineering"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "psycopg[binary]",
+    "pydantic-settings",
+    "pytest",
+    "httpx",
+]
+
+[tool.setuptools]
+packages = ["app"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
