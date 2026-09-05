@@ -66,3 +66,46 @@ Content-Type: application/json
 
 {"status":"healthy"}
 ```
+
+## Authentication API
+
+Authentication uses a PostgreSQL-backed session cookie. No endpoint in this
+phase grants authorization or RBAC permissions.
+
+### `POST /auth/register`
+
+Creates a user from a normalized email and password. A successful request
+returns `201 Created`; duplicate emails return `409 Conflict`. Passwords are
+never returned.
+
+```json
+{
+  "email": "user@example.com",
+  "password": "example-password"
+}
+```
+
+### `POST /auth/login`
+
+Validates credentials and creates a fixed 24-hour session. The response sets
+an HttpOnly, SameSite=Lax cookie, with Secure enabled in HTTPS environments.
+Invalid credentials return a generic `401 Unauthorized` response.
+
+```json
+{
+  "email": "user@example.com",
+  "password": "example-password"
+}
+```
+
+### `GET /auth/me`
+
+Returns the current authenticated user. A missing, expired, or revoked session
+returns `401 Unauthorized`.
+
+### `POST /auth/logout`
+
+Revokes the current session and clears the session cookie. The operation may
+return `204 No Content` when no valid session exists.
+
+Cookie-authenticated state-changing requests require CSRF consideration.
